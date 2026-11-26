@@ -271,6 +271,9 @@ npm run test:telegram
 Without the token, the order form shows a sending error instead of a false
 success.
 
+> After adding or changing an environment variable, **redeploy** the project.
+> Vercel only injects environment variables into new deployments.
+
 Supabase is **not installed or called** yet. The planned clients, types and
 security rules live in `src/lib/supabase/README.md`.
 
