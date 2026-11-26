@@ -4,9 +4,8 @@ import { useState, type FormEvent, type ReactNode } from "react";
 import {
   Banknote,
   Check,
-  Copy,
   Home,
-  Mail,
+  Loader2,
   MapPin,
   Phone,
   ShieldCheck,
@@ -14,7 +13,7 @@ import {
   Truck,
   User,
 } from "lucide-react";
-import { Button, buttonStyles } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
 import { formatPrice } from "@/lib/utils";
 import { localizedPath } from "@/config/i18n";
@@ -89,43 +88,19 @@ export function OrderForm({
   dict: Dictionary;
 }) {
   const copy = dict.order;
-  const productName = product.name[locale];
   const [quantity, setQuantity] = useState(1);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [errors, setErrors] = useState<FormErrors>({});
-  const [status, setStatus] = useState<"idle" | "ready">("idle");
-  const [copied, setCopied] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "ready" | "error"
+  >("idle");
+  const [reference, setReference] = useState("");
 
   const subtotal = product.price * quantity;
   const total = subtotal;
-  const subject = copy.emailSubject
-    .replace("{product}", productName)
-    .replace("{name}", fullName.trim() || "—");
-
-  const orderSummary = [
-    copy.emailIntro,
-    "",
-    productName,
-    `${copy.quantity}: ${quantity}`,
-    `${copy.unitPrice}: ${formatPrice(product.price, locale)}`,
-    `${copy.total}: ${formatPrice(total, locale)}`,
-    `${copy.payment}: ${copy.codLabel}`,
-    "",
-    copy.emailCustomer,
-    `${copy.fullName}: ${fullName.trim()}`,
-    `${copy.phone}: ${phone.trim()}`,
-    `${copy.city}: ${city.trim()}`,
-    `${copy.address}: ${address.trim()}`,
-    "",
-    copy.emailOutro,
-  ].join("\n");
-
-  const mailtoHref = `mailto:${siteConfig.email}?subject=${encodeURIComponent(
-    subject,
-  )}&body=${encodeURIComponent(orderSummary)}`;
 
   function validate() {
     const next: FormErrors = {};
@@ -138,25 +113,41 @@ export function OrderForm({
     return next;
   }
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const next = validate();
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
-    setStatus("ready");
-    window.setTimeout(() => {
-      window.location.href = mailtoHref;
-    }, 120);
-  }
+    setStatus("submitting");
 
-  async function copySummary() {
     try {
-      await navigator.clipboard.writeText(orderSummary);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2200);
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: product.id,
+          quantity,
+          fullName: fullName.trim(),
+          phone: phone.trim(),
+          city: city.trim(),
+          address: address.trim(),
+          locale,
+        }),
+      });
+
+      const result = (await response.json().catch(() => null)) as
+        | { ok?: boolean; reference?: string }
+        | null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error("order_failed");
+      }
+
+      setReference(result.reference ?? "");
+      setStatus("ready");
     } catch {
-      setCopied(false);
+      setStatus("error");
     }
   }
 
@@ -174,32 +165,33 @@ export function OrderForm({
             {copy.readyText}
           </p>
 
+          {reference ? (
+            <p className="mt-4 rounded-lg bg-ivory-50 px-3 py-2 text-[0.72rem] text-smoke">
+              {copy.reference}:{" "}
+              <span dir="ltr" className="font-semibold text-wine-800">
+                {reference}
+              </span>
+            </p>
+          ) : null}
+
           <a
-            href={mailtoHref}
-            className={buttonStyles({
-              variant: "primary",
-              size: "md",
-              fullWidth: true,
-              className: "mt-5",
-            })}
+            href={`tel:${siteConfig.phoneHref}`}
+            className="mt-4 inline-flex items-center gap-1.5 text-[0.7rem] font-medium text-wine-800 hover:text-wine-600"
           >
-            <Mail size={15} strokeWidth={1.7} aria-hidden="true" />
-            {copy.openEmail}
+            <Phone size={12} strokeWidth={1.7} aria-hidden="true" />
+            {copy.callNote.split("{phone}")[0]}
+            <span dir="ltr">{siteConfig.phone}</span>
+            {copy.callNote.split("{phone}")[1]}
           </a>
 
-          <div className="mt-3 flex flex-wrap gap-2">
+          <div className="mt-4">
             <button
               type="button"
-              onClick={copySummary}
-              className="inline-flex items-center gap-2 rounded-full border border-ivory-300 px-4 py-2 text-[0.7rem] font-medium text-ink-soft transition-colors hover:border-wine-800/30 hover:text-wine-800"
-            >
-              <Copy size={13} strokeWidth={1.7} aria-hidden="true" />
-              {copied ? copy.copied : copy.copy}
-            </button>
-            <button
-              type="button"
-              onClick={() => setStatus("idle")}
-              className="inline-flex items-center rounded-full px-4 py-2 text-[0.7rem] font-medium text-wine-800 transition-colors hover:bg-ivory-100"
+              onClick={() => {
+                setStatus("idle");
+                setReference("");
+              }}
+              className="inline-flex items-center rounded-full border border-ivory-300 px-4 py-2 text-[0.7rem] font-medium text-ink-soft transition-colors hover:border-wine-800/30 hover:text-wine-800"
             >
               {copy.edit}
             </button>
@@ -348,18 +340,34 @@ export function OrderForm({
             {copy.shippingNote}
           </p>
 
+          {status === "error" ? (
+            <p
+              role="alert"
+              className="mt-3 rounded-lg border border-wine-500/25 bg-wine-50 px-3 py-2 text-[0.7rem] leading-relaxed text-wine-800"
+            >
+              {copy.errorSend}
+            </p>
+          ) : null}
+
           <Button
             type="submit"
             size="lg"
             fullWidth
             className="mt-4"
-            iconLeft={<ShoppingCart size={16} strokeWidth={1.7} />}
+            disabled={status === "submitting"}
+            iconLeft={
+              status === "submitting" ? (
+                <Loader2 size={16} strokeWidth={1.8} className="animate-spin" />
+              ) : (
+                <ShoppingCart size={16} strokeWidth={1.7} />
+              )
+            }
           >
-            {copy.buyNow}
+            {status === "submitting" ? copy.sending : copy.buyNow}
           </Button>
 
           <p className="mt-2 text-center text-[0.62rem] leading-relaxed text-smoke">
-            {copy.emailNote}
+            {copy.formNote}
           </p>
 
           <ul className="mt-3 grid grid-cols-3 gap-1.5 border-t border-ivory-200 pt-3">

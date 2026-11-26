@@ -27,7 +27,7 @@ export const fr = {
   },
   announcement: {
     label: "Annonces",
-    shipping: "Livraison partout au Maroc",
+    shipping: "Livraison gratuite partout au Maroc",
     payment: "Paiement à la livraison",
     returns: "Retours sous 7 jours",
   },
@@ -56,6 +56,22 @@ export const fr = {
     address: "Adresse",
   },
   home: {
+    banner: {
+      title: "Tout pour votre maison",
+      alt: "JasmineShop — tout pour votre maison : qualité garantie, livraison gratuite partout au Maroc et service à l’écoute",
+      cta: "Découvrir la boutique",
+      ctaOrder: "Voir le produit",
+    },
+    nouveautes: {
+      eyebrow: "La sélection",
+      title: "Nouveautés",
+      description:
+        "Les dernières pièces choisies avec soin pour votre maison.",
+      badge: "Nouveau",
+      all: "Voir toute la boutique",
+      freeDelivery: "Livraison gratuite",
+      order: "Commander",
+    },
     hero: {
       eyebrow: "Maison marocaine de lifestyle — Casablanca",
       titleStart: "L’art de vivre,",
@@ -82,7 +98,7 @@ export const fr = {
       },
       {
         title: "Livraison soignée",
-        text: "Partout au Maroc, avec paiement à la livraison.",
+        text: "Gratuite partout au Maroc, avec paiement à la livraison.",
       },
       {
         title: "Service humain",
@@ -99,7 +115,7 @@ export const fr = {
     product: {
       eyebrow: "Notre première pièce",
       cta: "Découvrir le produit",
-      note: "Paiement à la livraison · Livraison partout au Maroc",
+      note: "Paiement à la livraison · Livraison gratuite partout au Maroc",
     },
     story: {
       eyebrow: "La maison",
@@ -199,9 +215,8 @@ export const fr = {
     formSubtitle: "Paiement à la livraison",
     subtotal: "Sous-total",
     shipping: "Livraison",
-    shippingValue: "Confirmée par téléphone",
-    shippingNote:
-      "Livraison partout au Maroc. Les frais sont confirmés par téléphone selon votre ville.",
+    shippingValue: "Gratuite",
+    shippingNote: "Livraison gratuite partout au Maroc, jusqu’à votre porte.",
     buyNow: "Acheter maintenant",
     trustCod: "Paiement à la livraison",
     trustDelivery: "Livraison rapide",
@@ -221,25 +236,20 @@ export const fr = {
     payment: "Paiement",
     codLabel: "Paiement à la livraison (COD)",
     codNote: "Vous payez en espèces à la réception de votre colis.",
-    submit: "Envoyer ma commande",
-    emailNote:
-      "Votre application e-mail s’ouvrira avec le récapitulatif à envoyer à notre équipe.",
+    formNote: "Vos informations sont envoyées directement à notre équipe.",
     callNote: "Vous pouvez aussi nous appeler au {phone}.",
     privacy:
       "Vos informations servent uniquement à confirmer et livrer votre commande.",
     errorRequired: "Ce champ est obligatoire.",
     errorPhone: "Saisissez un numéro marocain valide (06, 07 ou +212).",
-    readyTitle: "Votre commande est prête.",
+    errorSend:
+      "L’envoi n’a pas abouti. Vérifiez votre connexion ou appelez-nous.",
+    sending: "Envoi en cours…",
+    readyTitle: "Commande envoyée avec succès !",
     readyText:
-      "Envoyez l’e-mail qui vient de s’ouvrir pour confirmer votre commande. Notre équipe vous appellera ensuite.",
-    openEmail: "Ouvrir l’e-mail",
-    copy: "Copier le récapitulatif",
-    copied: "Copié",
+      "Nous avons bien reçu votre commande. Notre équipe vous appellera pour confirmer la livraison.",
+    reference: "Référence",
     edit: "Modifier mes informations",
-    emailSubject: "Commande — {product} — {name}",
-    emailIntro: "Bonjour JasmineShop, je souhaite commander :",
-    emailCustomer: "Mes coordonnées",
-    emailOutro: "Merci, je reste disponible pour confirmer la livraison.",
   },
   boutique: {
     eyebrow: "La boutique",
@@ -365,7 +375,7 @@ export const fr = {
           {
             question: "Livrez-vous partout au Maroc ?",
             answer:
-              "Oui. Nous livrons dans toutes les villes et régions du Maroc. Les frais de livraison sont confirmés par téléphone.",
+              "Oui. Nous livrons dans toutes les villes et régions du Maroc. La livraison est gratuite.",
           },
           {
             question: "Quels sont les délais de livraison ?",

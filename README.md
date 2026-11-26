@@ -6,11 +6,11 @@ The approved Phase 2 identity is unchanged. Phase 3 adds the first official
 product, a centralized catalogue entry, a five-photo gallery, a localized
 product page and a cash-on-delivery order flow.
 
-> **Scope:** one product only. The COD form validates the customer details and
-> prepares a prefilled order e-mail; there is no order database, server action or
-> payment gateway yet. Collection pages (`Nouveautés`, `Best-sellers`,
-> `Idées cadeaux`) still use their designed "selection in preparation" state and
-> remain `noindex`.
+> **Scope:** one product only. The COD form validates the customer details, sends
+> the order to the JasmineShop Telegram group and shows a success confirmation;
+> there is no order database or payment gateway yet. Collection pages
+> (`Nouveautés`, `Best-sellers`, `Idées cadeaux`) still use their designed
+> "selection in preparation" state and remain `noindex`.
 
 ---
 
@@ -148,10 +148,11 @@ category **Maison & Rangement**.
 - Interactive gallery, verified specification table, quantity selector and total.
 - COD form: full name, Moroccan phone, city, full address, quantity and total,
   displayed directly next to the gallery. Payment is cash on delivery only.
-  Submitting validates the fields and opens a prefilled order e-mail to
-  `bonjour@jasmineshop.ma`.
+  Submitting validates the fields, sends the order to the Telegram group
+  (`TELEGRAM_CHAT_ID`) and confirms success with an order reference.
+- Homepage: owner banner, then a **Nouveautés** product card linked to the order
+  form.
 - Mobile sticky order bar links back to the order form.
-- Homepage spotlight links to the product and directly to the order section.
 - Photos were supplied via the owner-provided Marjane Mall listing. Confirm usage
   rights before public commercial publication; see the folder README.
 
@@ -251,12 +252,18 @@ Set `NEXT_PUBLIC_SITE_URL` in production.
 
 ```dotenv
 NEXT_PUBLIC_SITE_URL=https://jasmineshop.ma
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=-5334669783
 NEXT_PUBLIC_SUPABASE_URL=
 NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 ```
 
-Supabase is **not installed or called** in Phase 2. The planned clients, types and
+`TELEGRAM_BOT_TOKEN` is server-only. Create a bot with **@BotFather**, add it to
+the group `-5334669783`, then set both variables locally and on Vercel. Without
+the token, the order form shows a sending error instead of a false success.
+
+Supabase is **not installed or called** yet. The planned clients, types and
 security rules live in `src/lib/supabase/README.md`.
 
 ---
@@ -284,8 +291,9 @@ Browser checks:
 - Phase 2: 30 localized routes crawled, **0 broken internal links**, 268 anchor
   checks, no horizontal overflow at 320–1440 px, one `<h1>` per page.
 - Phase 3 product page: 5 photos load, gallery switching works, 230 DH unit price
-  and correct quantity totals, COD validation messages, e-mail handoff ready,
-  no console errors, Arabic RTL without horizontal overflow.
+  and correct quantity totals, COD validation messages, Telegram delivery and
+  success confirmation, no console errors, Arabic RTL without horizontal
+  overflow.
 
 Lighthouse audit (`/fr`): **Accessibility 100 · Best Practices 100 · SEO 100**.
 

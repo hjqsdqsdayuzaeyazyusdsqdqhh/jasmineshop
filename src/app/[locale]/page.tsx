@@ -1,6 +1,6 @@
+import { HomeBanner } from "@/components/home/home-banner";
 import { HomeContact } from "@/components/home/home-contact";
-import { HomeHero } from "@/components/home/home-hero";
-import { HomeProduct } from "@/components/home/home-product";
+import { HomeNouveautes } from "@/components/home/home-nouveautes";
 import { HomeStory } from "@/components/home/home-story";
 import { HomeUniverses } from "@/components/home/home-universes";
 import { HomeValues } from "@/components/home/home-values";
@@ -23,9 +23,9 @@ export default async function LocalePage({
 
   return (
     <main id="main" className="flex-1">
-      <HomeHero locale={locale} dict={dict} />
+      <HomeBanner locale={locale} dict={dict} />
+      <HomeNouveautes locale={locale} dict={dict} />
       <HomeValues dict={dict} />
-      <HomeProduct locale={locale} dict={dict} />
       <HomeUniverses locale={locale} dict={dict} />
       <HomeStory locale={locale} dict={dict} />
       <HomeContact locale={locale} dict={dict} />

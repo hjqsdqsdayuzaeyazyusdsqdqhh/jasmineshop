@@ -29,7 +29,7 @@ export const ar: Dictionary = {
   },
   announcement: {
     label: "إعلانات",
-    shipping: "توصيل إلى كل المغرب",
+    shipping: "توصيل مجاني إلى كل المغرب",
     payment: "الدفع عند التوصيل",
     returns: "إرجاع خلال 7 أيام",
   },
@@ -58,6 +58,21 @@ export const ar: Dictionary = {
     address: "العنوان",
   },
   home: {
+    banner: {
+      title: "كل ما يحتاجه بيتك",
+      alt: "JasmineShop — كل ما يحتاجه بيتك: جودة مضمونة، توصيل مجاني إلى كل المغرب وخدمة قريبة منك",
+      cta: "اكتشف المتجر",
+      ctaOrder: "شاهد المنتج",
+    },
+    nouveautes: {
+      eyebrow: "اختيارنا",
+      title: "وصل حديثاً",
+      description: "آخر القطع المختارة بعناية لبيتك.",
+      badge: "جديد",
+      all: "شاهد كل المتجر",
+      freeDelivery: "توصيل مجاني",
+      order: "اطلب الآن",
+    },
     hero: {
       eyebrow: "بيت مغربي لأسلوب الحياة — الدار البيضاء",
       titleStart: "فن العيش،",
@@ -83,7 +98,7 @@ export const ar: Dictionary = {
       },
       {
         title: "توصيل بعناية",
-        text: "إلى كل المغرب، مع الدفع عند التوصيل.",
+        text: "مجاني إلى كل المغرب، مع الدفع عند التوصيل.",
       },
       {
         title: "خدمة إنسانية",
@@ -99,7 +114,7 @@ export const ar: Dictionary = {
     product: {
       eyebrow: "قطعتنا الأولى",
       cta: "اكتشف القطعة",
-      note: "الدفع عند التوصيل · توصيل إلى كل المغرب",
+      note: "الدفع عند التوصيل · توصيل مجاني إلى كل المغرب",
     },
     story: {
       eyebrow: "البيت",
@@ -193,8 +208,8 @@ export const ar: Dictionary = {
     formSubtitle: "الدفع عند التوصيل",
     subtotal: "المجموع الفرعي",
     shipping: "التوصيل",
-    shippingValue: "تُحدَّد هاتفياً",
-    shippingNote: "توصيل إلى كل المغرب. تُحدَّد التكلفة هاتفياً حسب مدينتك.",
+    shippingValue: "مجاني",
+    shippingNote: "توصيل مجاني إلى كل المغرب حتى باب دارك.",
     buyNow: "اشترِ الآن",
     trustCod: "الدفع عند التوصيل",
     trustDelivery: "توصيل سريع",
@@ -214,24 +229,17 @@ export const ar: Dictionary = {
     payment: "الدفع",
     codLabel: "الدفع عند التوصيل (COD)",
     codNote: "تدفع نقداً عند استلام طلبك.",
-    submit: "إرسال طلبي",
-    emailNote:
-      "سيُفتح تطبيق البريد الإلكتروني مع ملخص الطلب لإرساله إلى فريقنا.",
+    formNote: "تُرسَل معلوماتك مباشرة إلى فريقنا.",
     callNote: "يمكنك أيضاً الاتصال بنا على {phone}.",
     privacy: "تُستخدم معلوماتك فقط لتأكيد طلبك وتوصيله.",
     errorRequired: "هذا الحقل مطلوب.",
     errorPhone: "أدخل رقم هاتف مغربي صالح (06 أو 07 أو +212).",
-    readyTitle: "طلبك جاهز.",
-    readyText:
-      "أرسل البريد الذي فُتح للتو لتأكيد طلبك. سيتصل بك فريقنا بعد ذلك.",
-    openEmail: "فتح البريد",
-    copy: "نسخ الملخص",
-    copied: "تم النسخ",
+    errorSend: "تعذّر إرسال الطلب. تحقق من اتصالك أو اتصل بنا.",
+    sending: "جارٍ الإرسال…",
+    readyTitle: "تم إرسال طلبك بنجاح!",
+    readyText: "استلمنا طلبك. سيتصل بك فريقنا لتأكيد التوصيل.",
+    reference: "المرجع",
     edit: "تعديل معلوماتي",
-    emailSubject: "طلب — {product} — {name}",
-    emailIntro: "مرحباً JasmineShop، أرغب في طلب:",
-    emailCustomer: "بياناتي",
-    emailOutro: "شكراً، أنا متاح لتأكيد التوصيل.",
   },
   boutique: {
     eyebrow: "المتجر",
@@ -356,7 +364,7 @@ export const ar: Dictionary = {
           {
             question: "هل توصلون إلى كل المغرب؟",
             answer:
-              "نعم، نوصّل إلى جميع المدن والمناطق. تُحدَّد تكلفة التوصيل هاتفياً.",
+              "نعم، نوصّل إلى جميع المدن والمناطق. التوصيل مجاني.",
           },
           {
             question: "ما مدة التوصيل؟",
