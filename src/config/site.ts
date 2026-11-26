@@ -6,8 +6,8 @@ export const siteConfig = {
     "",
   ),
   email: "bonjour@jasmineshop.ma",
-  phone: "+212 5 22 45 18 90",
-  phoneHref: "+212522451890",
+  phone: "+212 693-497599",
+  phoneHref: "+212693497599",
   address: {
     city: "Casablanca",
     country: "Maroc",
