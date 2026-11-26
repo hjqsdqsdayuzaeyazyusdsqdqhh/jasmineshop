@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+/* -------------------------------------------------------------------------------------------------
+   JasmineShop — Phase 2 brand identity & design system
+   Burgundy #7B1734 · Deep Burgundy #521025 · Ivory #FFFDF8
+   Soft Gold #C6A15B · Ink #242124 · Mist #F5F5F5
+------------------------------------------------------------------------------------------------- */
+
+@theme {
+  /* Burgundy / elegant rose */
+  --color-wine-50: #fdf5f7;
+  --color-wine-100: #f9e7ed;
+  --color-wine-200: #f2cbd7;
+  --color-wine-300: #e3a3b6;
+  --color-wine-400: #cd708c;
+  --color-wine-500: #b24465;
+  --color-wine-600: #982b4d;
+  --color-wine-700: #8c1d3e;
+  --color-wine-800: #7b1734;
+  --color-wine-900: #521025;
+  --color-wine-950: #350a18;
+
+  /* Warm ivory */
+  --color-ivory-50: #fffdf8;
+  --color-ivory-100: #faf5ec;
+  --color-ivory-200: #f3e9da;
+  --color-ivory-300: #e8d8c3;
+  --color-ivory-400: #d8c0a5;
+
+  /* Soft gold */
+  --color-gold-50: #fbf7ef;
+  --color-gold-100: #f5ecd9;
+  --color-gold-200: #ebd9b6;
+  --color-gold-300: #dbc18f;
+  --color-gold-400: #c6a15b;
+  --color-gold-500: #b08a48;
+  --color-gold-600: #8f6d37;
+  --color-gold-700: #6f5429;
+
+  /* Neutrals */
+  --color-ink: #242124;
+  --color-ink-soft: #3b3539;
+  --color-smoke: #6f666a;
+  --color-smoke-light: #9b9296;
+  --color-mist: #f5f5f5;
+
+  /* Typography */
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-display: var(--font-instrument), "Iowan Old Style", Georgia,
+    "Times New Roman", serif;
+
+  --text-hero: clamp(2.4rem, 6.4vw, 4.7rem);
+  --text-hero--line-height: 1.03;
+  --text-hero--letter-spacing: -0.02em;
+
+  /* Elevation */
+  --shadow-soft: 0 1px 2px rgb(82 16 37 / 0.04),
+    0 16px 40px -24px rgb(82 16 37 / 0.25);
+  --shadow-float: 0 28px 70px -36px rgb(82 16 37 / 0.45);
+  --shadow-header: 0 12px 36px -28px rgb(82 16 37 / 0.5);
+
+  /* Motion */
+  --ease-brand: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-fade-up: fade-up 0.9s var(--ease-brand) both;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Arabic typography: one family for UI and display, tuned for readability */
+html[lang="ar"] {
+  --font-sans: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  --font-display: var(--font-cairo), "Segoe UI", Tahoma, sans-serif;
+  --text-hero--line-height: 1.3;
+  --text-hero--letter-spacing: 0;
+}
+
+/* -------------------------------------------------------------------------------------------------
+   Base
+------------------------------------------------------------------------------------------------- */
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-ivory-200);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-ivory-50);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  html[lang="ar"] body {
+    line-height: 1.8;
+  }
+
+  html[lang="ar"] h1,
+  html[lang="ar"] h2,
+  html[lang="ar"] h3,
+  html[lang="ar"] h4 {
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+
+  ::selection {
+    background-color: var(--color-wine-200);
+    color: var(--color-wine-950);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-wine-600);
+    outline-offset: 3px;
+  }
+
+  img,
+  svg {
+    display: block;
+  }
+}
+
+/* -------------------------------------------------------------------------------------------------
+   Reusable primitives
+------------------------------------------------------------------------------------------------- */
+
+@layer components {
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: var(--font-sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--color-wine-700);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.45;
+  }
+
+  html[lang="ar"] .eyebrow {
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.8125rem;
+  }
+
+  .micro {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  html[lang="ar"] .micro {
+    letter-spacing: 0;
+    text-transform: none;
+    font-size: 0.8125rem;
+  }
+
+  .announcement-text {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  html[lang="ar"] .announcement-text {
+    font-size: 0.8rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .btn {
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  html[lang="ar"] .btn {
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* The Latin wordmark keeps Instrument Serif in both locales. */
+  .wordmark {
+    font-family: var(--font-instrument), "Iowan Old Style", Georgia,
+      "Times New Roman", serif;
+  }
+
+  /* Primary desktop navigation */
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding-block: 0.4rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--color-ink-soft);
+    transition: color 0.3s var(--ease-brand);
+    white-space: nowrap;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -0.15rem;
+    height: 1px;
+    background-color: var(--color-gold-400);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.35s var(--ease-brand);
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current="page"] {
+    color: var(--color-wine-800);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+
+  html[lang="ar"] .nav-link {
+    font-size: 0.86rem;
+    letter-spacing: 0;
+    text-transform: none;
+    padding-block: 0.5rem;
+  }
+
+  .arch {
+    border-radius: 14rem 14rem 1.6rem 1.6rem;
+  }
+
+  .pattern-zellige {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23c6a15b' stroke-opacity='.16' stroke-width='1'%3E%3Crect x='30' y='30' width='36' height='36'/%3E%3Crect x='30' y='30' width='36' height='36' transform='rotate(45 48 48)'/%3E%3Ccircle cx='48' cy='48' r='4.5'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 96px 96px;
+  }
+
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(198 161 91 / 0.7),
+      transparent
+    );
+  }
+
+  .faq-item summary {
+    list-style: none;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item[open] .faq-icon {
+    transform: rotate(45deg);
+    background-color: var(--color-wine-800);
+    border-color: var(--color-wine-800);
+    color: var(--color-ivory-50);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
