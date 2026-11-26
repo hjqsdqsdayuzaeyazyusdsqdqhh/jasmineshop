@@ -1,5 +1,6 @@
 import { HomeContact } from "@/components/home/home-contact";
 import { HomeHero } from "@/components/home/home-hero";
+import { HomeProduct } from "@/components/home/home-product";
 import { HomeStory } from "@/components/home/home-story";
 import { HomeUniverses } from "@/components/home/home-universes";
 import { HomeValues } from "@/components/home/home-values";
@@ -24,6 +25,7 @@ export default async function LocalePage({
     <main id="main" className="flex-1">
       <HomeHero locale={locale} dict={dict} />
       <HomeValues dict={dict} />
+      <HomeProduct locale={locale} dict={dict} />
       <HomeUniverses locale={locale} dict={dict} />
       <HomeStory locale={locale} dict={dict} />
       <HomeContact locale={locale} dict={dict} />

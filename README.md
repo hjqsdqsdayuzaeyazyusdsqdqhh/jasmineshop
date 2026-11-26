@@ -1,16 +1,16 @@
 # JasmineShop
 
-Moroccan home & lifestyle e-commerce — **Phase 2: brand identity & design system**.
+Moroccan home & lifestyle e-commerce — **Phase 3: first real product & COD order flow**.
 
-Phase 2 is complete: the approved JasmineShop identity now runs through a finished
-brand landing, responsive desktop/mobile headers, a full footer, and a set of
-localized content pages. The commerce catalogue and product data remain reserved
-for Phase 3.
+The approved Phase 2 identity is unchanged. Phase 3 adds the first official
+product, a centralized catalogue entry, a five-photo gallery, a localized
+product page and a cash-on-delivery order flow.
 
-> **Scope:** no products, no cart logic, no checkout, no Supabase and no Telegram
-> yet. Navigation is fully wired: content pages are live, while the collection
-> pages (`Nouveautés`, `Best-sellers`, `Idées cadeaux`) use a designed
-> "selection in preparation" state and are marked `noindex` until Phase 3.
+> **Scope:** one product only. The COD form validates the customer details and
+> prepares a prefilled order e-mail; there is no order database, server action or
+> payment gateway yet. Collection pages (`Nouveautés`, `Best-sellers`,
+> `Idées cadeaux`) still use their designed "selection in preparation" state and
+> remain `noindex`.
 
 ---
 
@@ -58,8 +58,9 @@ Open <http://localhost:3000>. The proxy redirects to `/fr` or `/ar`.
 
 | Route (FR / AR)                | Page                                        |
 | ------------------------------ | ------------------------------------------- |
-| `/[locale]`                    | Brand landing (hero, values, universes…)     |
+| `/[locale]`                    | Brand landing (hero, values, product, universes…) |
 | `/[locale]/boutique`           | The four JasmineShop universes              |
+| `/[locale]/produit/[slug]`     | Product page, gallery & COD order           |
 | `/[locale]/nouveautes`         | New arrivals — prepared collection          |
 | `/[locale]/best-sellers`       | Best-sellers — prepared collection          |
 | `/[locale]/idees-cadeaux`      | Gift ideas — prepared collection            |
@@ -86,6 +87,7 @@ src/
 │  │  ├─ layout.tsx                 # localized root HTML, fonts, metadata
 │  │  ├─ page.tsx                   # brand landing
 │  │  ├─ boutique/page.tsx
+│  │  ├─ produit/[slug]/page.tsx      # product gallery, specs, COD order
 │  │  ├─ nouveautes/page.tsx
 │  │  ├─ best-sellers/page.tsx
 │  │  ├─ idees-cadeaux/page.tsx
@@ -108,8 +110,8 @@ src/
 │  ├─ common/                       # logo, flower, page hero, cards, states
 │  ├─ home/                         # brand landing sections
 │  ├─ layout/                       # announcement bar, header, menu, footer
-│  ├─ ui/                           # button, badge, container, arrow, headings
-│  ├─ products/                     # reserved for Phase 3
+│  ├─ ui/                           # button, badge, container, quantity, headings
+│  ├─ product/                      # gallery, visual, placeholder, order form
 │  └─ checkout/                     # reserved for later
 ├─ config/
 │  ├─ site.ts
@@ -117,16 +119,41 @@ src/
 │  ├─ navigation.ts                 # routes + primary navigation
 │  └─ dictionaries/{fr,ar}.ts
 ├─ hooks/use-lock-body-scroll.ts
+├─ data/products.ts                 # single source of truth for the catalogue
 ├─ lib/
 │  ├─ seo.ts                        # localized page metadata helper
+│  ├─ product-images.ts             # local photo availability check
 │  ├─ supabase/README.md            # future integration plan
 │  └─ utils/                        # cn, cookies, currency/date formatting
 ├─ proxy.ts                         # locale detection (Next 16)
 └─ types/index.ts
 public/
+├─ images/products/chariot/          # 5 official product photos + source note
 ├─ images/  icons/
 └─ logo/jasmineshop-mark.svg
 ```
+
+---
+
+## First product
+
+**Chariot de rangement multifonctionnel** — `chariot-rangement-001`,
+`/[locale]/produit/chariot-rangement-3-niveaux`, **230 DH**, in stock,
+category **Maison & Rangement**.
+
+- Matte black metal frame, two deep wire baskets, wooden top tray, four wheels.
+- 76 × 29 × 42 cm; kitchen, living room, bedroom or office.
+- Five local photos in `public/images/products/chariot/` (`main`, `gallery-2`,
+  `gallery-3`, `gallery-4`, `detail`), with alt text in FR/AR.
+- Interactive gallery, verified specification table, quantity selector and total.
+- COD form: full name, Moroccan phone, city, full address, quantity and total,
+  displayed directly next to the gallery. Payment is cash on delivery only.
+  Submitting validates the fields and opens a prefilled order e-mail to
+  `bonjour@jasmineshop.ma`.
+- Mobile sticky order bar links back to the order form.
+- Homepage spotlight links to the product and directly to the order section.
+- Photos were supplied via the owner-provided Marjane Mall listing. Confirm usage
+  rights before public commercial publication; see the folder README.
 
 ---
 
@@ -209,10 +236,12 @@ and copyright. All links point to existing pages or mail/phone actions.
 
 - Per-page localized titles, descriptions, canonical URLs and `hreflang`.
 - Dynamic 1200×630 Open Graph image, Twitter card, robots directives.
-- Content pages indexed; prepared collection pages, search, cart and wishlist
-  `noindex`.
-- Sitemap covers the indexable FR/AR content pages with language alternates.
-- JSON-LD `Organization` + `WebSite`; security headers in `next.config.ts`.
+- Content pages and the product page are indexed; prepared collection pages,
+  search, cart and wishlist are `noindex`.
+- Sitemap covers the indexable FR/AR content pages and both product URLs with
+  language alternates.
+- JSON-LD `Organization` + `WebSite`; the product page adds `Product` + `Offer`.
+  Security headers live in `next.config.ts`.
 
 Set `NEXT_PUBLIC_SITE_URL` in production.
 
@@ -250,14 +279,13 @@ npm run typecheck  # ✓ no errors
 npm run build      # ✓ production build
 ```
 
-Browser checks against the production build:
+Browser checks:
 
-- 30 localized routes crawled, **0 broken internal links**.
-- 268 anchor checks, **0 broken anchors**.
-- No horizontal overflow at 320 / 360 / 390 / 768 / 1024 / 1280 / 1440 px.
-- One `<h1>` on every page, no console errors.
-- Mobile drawer interaction tested (focus, Escape, scroll lock, resize, locale
-  switch); French LTR and Arabic RTL verified.
+- Phase 2: 30 localized routes crawled, **0 broken internal links**, 268 anchor
+  checks, no horizontal overflow at 320–1440 px, one `<h1>` per page.
+- Phase 3 product page: 5 photos load, gallery switching works, 230 DH unit price
+  and correct quantity totals, COD validation messages, e-mail handoff ready,
+  no console errors, Arabic RTL without horizontal overflow.
 
 Lighthouse audit (`/fr`): **Accessibility 100 · Best Practices 100 · SEO 100**.
 
@@ -265,11 +293,9 @@ Lighthouse audit (`/fr`): **Accessibility 100 · Best Practices 100 · SEO 100**
 
 ## Next phase
 
-**Phase 3 — Catalogue & commerce content**
+**Phase 4 — Real orders & catalogue growth**
 
-- Build the product/category data model, cards and detail pages.
-- Replace prepared collection pages with the first real selection.
-- Add product photography, prices, filtering and search results.
-- Wire Supabase data, then cart and COD checkout.
-
-Phase 2 deliberately stops before these features.
+- Persist COD orders (Supabase or server action) and notify the team.
+- Add more products to `src/data/products.ts` and real collection listings.
+- Replace placeholder collection pages and wire search/filtering.
+- Keep product photos owned by the house; confirm rights for every visual.

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { routes } from "@/config/navigation";
 import { siteConfig } from "@/config/site";
+import { products, productPath } from "@/data/products";
 import { locales } from "@/types";
 
 const pages = [
@@ -12,11 +13,19 @@ const pages = [
   { path: routes.legal, changeFrequency: "yearly" as const, priority: 0.3 },
 ];
 
+const productPages = products.map((product) => ({
+  path: productPath(product.slug),
+  changeFrequency: "weekly" as const,
+  priority: 0.85,
+}));
+
+const allPages = [...pages, ...productPages];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
   return locales.flatMap((locale) =>
-    pages.map((page) => {
+    allPages.map((page) => {
       const suffix = page.path === "/" ? "" : page.path;
       const url = `${siteConfig.url}/${locale}${suffix}`;
 
