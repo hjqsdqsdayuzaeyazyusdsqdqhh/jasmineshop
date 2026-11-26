@@ -259,9 +259,17 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=
 ```
 
-`TELEGRAM_BOT_TOKEN` is server-only. Create a bot with **@BotFather**, add it to
-the group `-5334669783`, then set both variables locally and on Vercel. Without
-the token, the order form shows a sending error instead of a false success.
+`TELEGRAM_BOT_TOKEN` is server-only. The group chat ID lives in
+`src/config/telegram.ts` (`-5334669783`) and can be overridden with
+`TELEGRAM_CHAT_ID`. Create a bot with **@BotFather**, add it to the group, then
+set the token locally and on Vercel. Send a test with:
+
+```bash
+npm run test:telegram
+```
+
+Without the token, the order form shows a sending error instead of a false
+success.
 
 Supabase is **not installed or called** yet. The planned clients, types and
 security rules live in `src/lib/supabase/README.md`.

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { products } from "@/data/products";
+import { TELEGRAM_ORDERS_CHAT_ID } from "@/config/telegram";
 
 export const runtime = "nodejs";
 
@@ -14,7 +15,7 @@ type OrderPayload = {
 };
 
 const TELEGRAM_CHAT_ID =
-  process.env.TELEGRAM_CHAT_ID?.trim() || "-5334669783";
+  process.env.TELEGRAM_CHAT_ID?.trim() || TELEGRAM_ORDERS_CHAT_ID;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN?.trim();
 const TELEGRAM_API_BASE =
   process.env.TELEGRAM_API_BASE?.trim() || "https://api.telegram.org";
@@ -114,20 +115,29 @@ export async function POST(request: Request) {
       `Langue : ${locale === "ar" ? "Arabe" : "Français"}`,
     ].join("\n");
 
-    const telegramResponse = await fetch(
-      `${TELEGRAM_API_BASE}/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: TELEGRAM_CHAT_ID,
-          text: message,
-          disable_web_page_preview: true,
-        }),
-        cache: "no-store",
-        signal: AbortSignal.timeout(10000),
-      },
-    );
+    let telegramResponse: Response;
+    try {
+      telegramResponse = await fetch(
+        `${TELEGRAM_API_BASE}/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            disable_web_page_preview: true,
+          }),
+          cache: "no-store",
+          signal: AbortSignal.timeout(10000),
+        },
+      );
+    } catch (error) {
+      console.error(
+        "Order API: Telegram request failed.",
+        error instanceof Error ? error.message : error,
+      );
+      return errorResponse(502, "telegram_failed");
+    }
 
     const telegramResult = (await telegramResponse.json().catch(() => null)) as
       | { ok?: boolean; description?: string }
