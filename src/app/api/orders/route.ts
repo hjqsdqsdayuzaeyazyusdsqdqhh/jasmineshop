@@ -24,11 +24,6 @@ function asText(value: unknown, maxLength: number) {
   return typeof value === "string" ? value.trim().slice(0, maxLength) : "";
 }
 
-function isValidMoroccanPhone(value: string) {
-  const digits = value.replace(/[\s().-]/g, "");
-  return /^(?:\+212|00212|0)[5-7]\d{8}$/.test(digits);
-}
-
 function orderReference() {
   return `JS-${Date.now().toString(36).toUpperCase().slice(-6)}`;
 }
@@ -77,12 +72,10 @@ export async function POST(request: Request) {
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
       return errorResponse(400, "invalid_quantity");
     }
-    if (fullName.length < 2) return errorResponse(400, "invalid_name");
-    if (!isValidMoroccanPhone(phone)) {
-      return errorResponse(400, "invalid_phone");
-    }
-    if (city.length < 2) return errorResponse(400, "invalid_city");
-    if (address.length < 10) return errorResponse(400, "invalid_address");
+    if (fullName.length < 1) return errorResponse(400, "invalid_name");
+    if (!phone) return errorResponse(400, "invalid_phone");
+    if (city.length < 1) return errorResponse(400, "invalid_city");
+    if (address.length < 1) return errorResponse(400, "invalid_address");
 
     const productName = product.name[locale];
     const unitPrice = product.price;

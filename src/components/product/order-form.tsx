@@ -33,11 +33,6 @@ type FormErrors = {
 const inputClass =
   "h-11 w-full rounded-lg border border-ivory-300 bg-white ps-10 pe-3 text-[0.82rem] text-ink outline-none transition placeholder:text-smoke-light focus:border-wine-500 focus:ring-4 focus:ring-wine-500/10";
 
-function isValidMoroccanPhone(value: string) {
-  const digits = value.replace(/[\s().-]/g, "");
-  return /^(?:\+212|00212|0)[5-7]\d{8}$/.test(digits);
-}
-
 function Field({
   id,
   label,
@@ -105,10 +100,10 @@ export function OrderForm({
   function validate() {
     const next: FormErrors = {};
 
-    if (fullName.trim().length < 2) next.fullName = copy.errorRequired;
-    if (!isValidMoroccanPhone(phone.trim())) next.phone = copy.errorPhone;
-    if (city.trim().length < 2) next.city = copy.errorRequired;
-    if (address.trim().length < 10) next.address = copy.errorRequired;
+    if (!fullName.trim()) next.fullName = copy.errorRequired;
+    if (!phone.trim()) next.phone = copy.errorRequired;
+    if (!city.trim()) next.city = copy.errorRequired;
+    if (!address.trim()) next.address = copy.errorRequired;
 
     return next;
   }
