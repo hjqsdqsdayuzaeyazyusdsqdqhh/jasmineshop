@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import {
   Banknote,
   Check,
@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
 import { formatPrice } from "@/lib/utils";
+import { trackMeta } from "@/lib/meta-pixel";
 import { localizedPath } from "@/config/i18n";
 import { siteConfig } from "@/config/site";
 import type { Dictionary } from "@/config/i18n";
@@ -93,6 +94,7 @@ export function OrderForm({
     "idle" | "submitting" | "ready" | "error"
   >("idle");
   const [reference, setReference] = useState("");
+  const submittingRef = useRef(false);
 
   const subtotal = product.price * quantity;
   const total = subtotal;
@@ -110,10 +112,13 @@ export function OrderForm({
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (submittingRef.current) return;
+
     const next = validate();
     setErrors(next);
     if (Object.keys(next).length > 0) return;
 
+    submittingRef.current = true;
     setStatus("submitting");
 
     try {
@@ -139,10 +144,23 @@ export function OrderForm({
         throw new Error("order_failed");
       }
 
-      setReference(result.reference ?? "");
+      const confirmedReference = result.reference ?? "";
+      setReference(confirmedReference);
       setStatus("ready");
+
+      trackMeta("Purchase", {
+        value: total,
+        currency: product.currency,
+        content_ids: [product.id],
+        content_name: product.name[locale],
+        content_type: "product",
+        num_items: quantity,
+        ...(confirmedReference ? { order_id: confirmedReference } : {}),
+      });
     } catch {
       setStatus("error");
+    } finally {
+      submittingRef.current = false;
     }
   }
 

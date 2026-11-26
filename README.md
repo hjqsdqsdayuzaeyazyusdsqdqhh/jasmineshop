@@ -248,6 +248,22 @@ Set `NEXT_PUBLIC_SITE_URL` in production.
 
 ---
 
+## Meta Pixel
+
+Pixel ID **`1643947119937280`**, configured in `src/config/site.ts`.
+
+- Base code is loaded **once** from the localized root layout with
+  `next/script` (`beforeInteractive`), including the `<noscript>` fallback.
+- `PageView` fires once with the base code, then only on client-side route
+  changes (`MetaPixelPageView`, deduplicated by pathname).
+- `ViewContent` fires once per product page (`MetaViewContent`).
+- `Purchase` is fired **only after** `/api/orders` confirms the Telegram
+  delivery; it includes the order reference, value, currency, product id and
+  quantity. It is never attached to the button click itself.
+- No visual or checkout behaviour is changed.
+
+---
+
 ## Environment
 
 ```dotenv

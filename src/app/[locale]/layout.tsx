@@ -1,8 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 import { Cairo, Instrument_Serif, Manrope } from "next/font/google";
 import "../globals.css";
 
+import { MetaPixelPageView } from "@/components/analytics/meta-pixel-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { AnnouncementBar } from "@/components/layout/announcement-bar";
@@ -37,6 +39,19 @@ const cairo = Cairo({
   variable: "--font-cairo",
   display: "swap",
 });
+
+const metaPixelBaseCode = `
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '${siteConfig.metaPixelId}');
+fbq('track', 'PageView');
+`;
 
 export const viewport: Viewport = {
   themeColor: "#521025",
@@ -170,6 +185,23 @@ export default async function LocaleLayout({
         <SiteHeader locale={locale} dict={dict} />
         {children}
         <SiteFooter locale={locale} dict={dict} />
+
+        <Script
+          id="meta-pixel"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: metaPixelBaseCode }}
+        />
+        <MetaPixelPageView />
+        <noscript>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${siteConfig.metaPixelId}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
 
         <script
           type="application/ld+json"

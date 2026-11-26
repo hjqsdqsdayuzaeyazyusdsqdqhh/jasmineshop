@@ -16,4 +16,5 @@ export const siteConfig = {
   foundedYear: 2021,
   currency: "MAD",
   currencyLabel: "DH",
+  metaPixelId: "1643947119937280",
 } as const;

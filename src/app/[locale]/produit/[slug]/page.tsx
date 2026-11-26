@@ -4,6 +4,7 @@ import {
   Check,
 } from "lucide-react";
 import Link from "next/link";
+import { MetaViewContent } from "@/components/analytics/meta-view-content";
 import { Breadcrumbs } from "@/components/common/breadcrumbs";
 import { Container } from "@/components/ui/container";
 import { buttonStyles } from "@/components/ui/button";
@@ -105,6 +106,14 @@ export default async function ProductPage({
 
   return (
     <main id="main" className="flex-1 pb-24 md:pb-0">
+      <MetaViewContent
+        productId={product.id}
+        productName={product.name[locale]}
+        category={product.category.name[locale]}
+        value={product.price}
+        currency={product.currency}
+      />
+
       <div className="border-b border-ivory-200 bg-white">
         <Container className="py-4">
           <Breadcrumbs
