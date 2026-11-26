@@ -29,7 +29,7 @@ export const ar: Dictionary = {
   },
   announcement: {
     label: "إعلانات",
-    shipping: "توصيل مجاني فوق 500 درهم",
+    shipping: "توصيل إلى كل المغرب",
     payment: "الدفع عند التوصيل",
     returns: "إرجاع خلال 7 أيام",
   },
@@ -193,8 +193,8 @@ export const ar: Dictionary = {
     formSubtitle: "الدفع عند التوصيل",
     subtotal: "المجموع الفرعي",
     shipping: "التوصيل",
-    shippingValue: "مجاني ابتداءً من 500 درهم",
-    shippingNote: "تُحدَّد تكلفة التوصيل هاتفياً حسب مدينتك.",
+    shippingValue: "تُحدَّد هاتفياً",
+    shippingNote: "توصيل إلى كل المغرب. تُحدَّد التكلفة هاتفياً حسب مدينتك.",
     buyNow: "اشترِ الآن",
     trustCod: "الدفع عند التوصيل",
     trustDelivery: "توصيل سريع",
@@ -356,7 +356,7 @@ export const ar: Dictionary = {
           {
             question: "هل توصلون إلى كل المغرب؟",
             answer:
-              "نعم، نوصّل إلى جميع المدن والمناطق. التوصيل مجاني للطلبات فوق 500 درهم.",
+              "نعم، نوصّل إلى جميع المدن والمناطق. تُحدَّد تكلفة التوصيل هاتفياً.",
           },
           {
             question: "ما مدة التوصيل؟",

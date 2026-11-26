@@ -27,7 +27,7 @@ export const fr = {
   },
   announcement: {
     label: "Annonces",
-    shipping: "Livraison offerte dès 500 DH",
+    shipping: "Livraison partout au Maroc",
     payment: "Paiement à la livraison",
     returns: "Retours sous 7 jours",
   },
@@ -199,9 +199,9 @@ export const fr = {
     formSubtitle: "Paiement à la livraison",
     subtotal: "Sous-total",
     shipping: "Livraison",
-    shippingValue: "Offerte dès 500 DH",
+    shippingValue: "Confirmée par téléphone",
     shippingNote:
-      "Le montant de la livraison est confirmé par téléphone selon votre ville.",
+      "Livraison partout au Maroc. Les frais sont confirmés par téléphone selon votre ville.",
     buyNow: "Acheter maintenant",
     trustCod: "Paiement à la livraison",
     trustDelivery: "Livraison rapide",
@@ -365,7 +365,7 @@ export const fr = {
           {
             question: "Livrez-vous partout au Maroc ?",
             answer:
-              "Oui. Nous livrons dans toutes les villes et régions du Maroc. La livraison est offerte dès 500 DH d’achat.",
+              "Oui. Nous livrons dans toutes les villes et régions du Maroc. Les frais de livraison sont confirmés par téléphone.",
           },
           {
             question: "Quels sont les délais de livraison ?",
